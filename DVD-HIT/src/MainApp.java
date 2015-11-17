@@ -24,7 +24,7 @@ public class MainApp {
         }
 
         try {
-            List<Cluster> clusters = new DVD_HIT(inFile).cluster();
+            List<Cluster> clusters = new DVD_HIT(inFile).cluster(new ShortWordSimilarityFilter());
         } catch (IOException e) {
             System.out.println("Error using the specified file!");
         }

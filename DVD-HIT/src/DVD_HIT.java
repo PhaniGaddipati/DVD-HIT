@@ -1,5 +1,3 @@
-import filters.SequenceSimilarityFilter;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

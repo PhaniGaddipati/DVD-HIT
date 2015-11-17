@@ -1,5 +1,3 @@
-package filters;
-
 /**
  * Created by Phani on 11/17/2015.
  */
@@ -13,5 +11,7 @@ public interface SequenceSimilarityFilter {
      * @return Whether sequence is similar to EVERY seq in cluster
      */
     public boolean isSimilar(Cluster cluster, String sequence);
+
+    public String getName();
 
 }

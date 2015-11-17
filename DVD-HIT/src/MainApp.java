@@ -18,8 +18,13 @@ public class MainApp {
     public static void main(String[] args) {
         if (validateArgs(args)) {
             try {
+                System.out.println("Clustering...");
+                long startTime = System.currentTimeMillis();
                 List<Cluster> clusters = new DVD_HIT(new File(args[0]))
                         .cluster(filters[Integer.parseInt(args[1])]);
+                long stopTime = System.currentTimeMillis();
+                System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
+
             } catch (IOException e) {
                 System.out.println("Error using the specified file!");
             }

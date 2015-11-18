@@ -52,18 +52,20 @@ public class DVD_HIT {
         List<String> sequences = new ArrayList<String>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
-            while (true) {
-                String firstLine;
-                String seq;
-
-                firstLine = br.readLine();
-                if (firstLine == null) { //reached the end of the file
-                    break;
+            StringBuilder currentSeq = null;
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith(">")) {
+                    if (currentSeq != null) {
+                        sequences.add(br.toString());
+                    }
+                    currentSeq = new StringBuilder();
+                } else {
+                    currentSeq.append(line.trim());
                 }
-                seq = br.readLine();
-                sequences.add(seq);
-                br.readLine(); //ignore line starting with +
-                br.readLine(); //ignore line containing qualities
+            }
+            if (currentSeq != null) {
+                sequences.add(br.toString());
             }
             br.close();
         } catch (IOException e) {

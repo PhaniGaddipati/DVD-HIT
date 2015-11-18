@@ -17,6 +17,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
             return false;
         }
         for (int k = MIN_K; k <= MAX_K; k++) {
+            //TODO Cache indexes
             Set<String> clusterIndex = getIndex(rep, k);
             int L = sequence.length();
             int needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);

@@ -5,16 +5,38 @@ import java.util.HashSet;
  */
 public class Cluster extends HashSet<String> {
 
-    public String getLongestSequence() {
-        String longest = null;
-        int longestLen = Integer.MIN_VALUE;
-        for (String s : this) {
-            if (s.length() > longestLen) {
-                longestLen = s.length();
-                longest = s;
-            }
+    private String longestSeq = null;
+
+
+    @Override
+    public boolean add(String s) {
+        boolean ret = super.add(s);
+        if (ret && (longestSeq == null || s.length() > longestSeq.length())) {
+            longestSeq = s;
         }
-        return longest;
+        return ret;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        Object removed = o;
+        boolean ret = super.remove(o);
+        if (ret && longestSeq.equals(o)) {
+            int maxLen = -1;
+            String longest = null;
+            for (String s : this) {
+                if (s.length() > maxLen) {
+                    maxLen = s.length();
+                    longest = s;
+                }
+            }
+            this.longestSeq = longest;
+        }
+        return ret;
+    }
+
+    public String getLongestSequence() {
+        return longestSeq;
     }
 
 }

@@ -3,8 +3,8 @@
  */
 public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
-    private static final int MIN_K = 4;
-    private static final int MAX_K = 10;
+    private static final int MIN_K = 2;
+    private static final int MAX_K = 5;
     private static final double THRESHOLD = .9;
 
     @Override

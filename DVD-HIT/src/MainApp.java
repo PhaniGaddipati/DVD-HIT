@@ -24,6 +24,7 @@ public class MainApp {
                         .cluster(filters[Integer.parseInt(args[1])]);
                 long stopTime = System.currentTimeMillis();
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
+                System.out.println("Resulted in " + clusters.size() + " clusters.");
 
             } catch (IOException e) {
                 System.out.println("Error using the specified file!");

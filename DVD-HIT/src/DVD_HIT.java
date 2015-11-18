@@ -28,7 +28,12 @@ public class DVD_HIT {
         });
 
         //At this points, sequences is a list of to-be-clustered seqs
+        int lastSize = sequences.size();
         while (sequences.size() > 0) {
+            if (sequences.size() < (lastSize - 100)) {
+                System.out.println(sequences.size() + " left to cluster");
+                lastSize = sequences.size();
+            }
             //Start cluster
             Cluster cluster = new Cluster();
             cluster.add(sequences.remove(0));
@@ -57,7 +62,7 @@ public class DVD_HIT {
             while ((line = br.readLine()) != null) {
                 if (line.startsWith(">")) {
                     if (currentSeq != null) {
-                        sequences.add(br.toString());
+                        sequences.add(currentSeq.toString());
                     }
                     currentSeq = new StringBuilder();
                 } else {

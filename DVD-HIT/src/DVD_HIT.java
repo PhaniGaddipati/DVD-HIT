@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -46,8 +48,28 @@ public class DVD_HIT {
         return clusters;
     }
 
-    private List<String> readSequences(File file) {
-        return Collections.emptyList();
+    private List<String> readSequences(String fileName) {
+		List<String> sequences = new ArrayList<String>();
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+			while (true) {
+				String firstLine;
+				String seq;
+				
+				firstLine = br.readLine();
+				if (firstLine == null) { //reached the end of the file
+					break;
+				}
+				seq = br.readLine();
+				sequences.add(seq);
+				br.readLine(); //ignore line starting with +
+				br.readLine(); //ignore line containing qualities
+			}
+			
+		} catch (IOException e) {
+			return Collections.emptyList();
+		}
+		
+		return sequences;
     }
 
 }

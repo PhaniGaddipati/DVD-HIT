@@ -16,7 +16,7 @@ public class MainApp {
                 System.out.println("Clustering...");
                 long startTime = System.currentTimeMillis();
                 List<Cluster> clusters = new DVD_HIT(new File(args[0]))
-                        .cluster(filters[Integer.parseInt(args[2])]);
+                        .cluster(filters[Integer.parseInt(args[2])], new File(args[1]));
                 long stopTime = System.currentTimeMillis();
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
                 System.out.println("Resulted in " + clusters.size() + " clusters.");
@@ -28,6 +28,7 @@ public class MainApp {
             printUsage();
         }
     }
+
 
     private static boolean validateArgs(String[] args) {
         if (args.length != 3) {

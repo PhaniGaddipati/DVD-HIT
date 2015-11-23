@@ -15,9 +15,9 @@ public class DVD_HIT {
         this.file = inFile;
     }
 
-    public List<Cluster> cluster(SequenceSimilarityFilter filter) throws IOException {
+    public List<Cluster> cluster(SequenceSimilarityFilter filter, File outFile) throws IOException {
         List<Cluster> clusters = new ArrayList<Cluster>();
-        List<String> sequences = readSequences(file);
+        List<String> sequences = readSequences(this.file);
 
         //Step 1, Sort by decreasing length
         Collections.sort(sequences, new Comparator<String>() {
@@ -49,8 +49,16 @@ public class DVD_HIT {
 
             clusters.add(cluster);
         }
-        //Now
+
+        if (outFile != null) {
+            writeClusterFile(clusters, outFile);
+        }
+
         return clusters;
+    }
+
+    private void writeClusterFile(List<Cluster> clusters, File outFile) {
+
     }
 
     private List<String> readSequences(File fileName) {

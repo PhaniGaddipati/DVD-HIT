@@ -3,15 +3,16 @@ import java.util.HashSet;
 /**
  * Created by Phani on 11/17/2015.
  */
-public class Cluster extends HashSet<String> {
+public class Cluster extends HashSet<Sequence> {
 
-    private String longestSeq = null;
+    private Sequence longestSeq = null;
 
 
     @Override
-    public boolean add(String s) {
+    public boolean add(Sequence s) {
         boolean ret = super.add(s);
-        if (ret && (longestSeq == null || s.length() > longestSeq.length())) {
+        if (ret && (longestSeq == null
+                || s.getSequence().length() > longestSeq.getSequence().length())) {
             longestSeq = s;
         }
         return ret;
@@ -23,10 +24,10 @@ public class Cluster extends HashSet<String> {
         boolean ret = super.remove(o);
         if (ret && longestSeq.equals(o)) {
             int maxLen = -1;
-            String longest = null;
-            for (String s : this) {
-                if (s.length() > maxLen) {
-                    maxLen = s.length();
+            Sequence longest = null;
+            for (Sequence s : this) {
+                if (s.getSequence().length() > maxLen) {
+                    maxLen = s.getSequence().length();
                     longest = s;
                 }
             }
@@ -35,7 +36,7 @@ public class Cluster extends HashSet<String> {
         return ret;
     }
 
-    public String getLongestSequence() {
+    public Sequence getLongestSequence() {
         return longestSeq;
     }
 

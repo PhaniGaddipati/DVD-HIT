@@ -10,7 +10,7 @@ public interface SequenceSimilarityFilter {
      * @param sequence The candidate sequence to add to cluster
      * @return Whether sequence is similar to EVERY seq in cluster
      */
-    public boolean isSimilar(Cluster cluster, String sequence);
+    public boolean isSimilar(Cluster cluster, Sequence sequence);
 
     public String getName();
 

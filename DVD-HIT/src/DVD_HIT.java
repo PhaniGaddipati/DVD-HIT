@@ -17,13 +17,13 @@ public class DVD_HIT {
 
     public List<Cluster> cluster(SequenceSimilarityFilter filter, File outFile) throws IOException {
         List<Cluster> clusters = new ArrayList<Cluster>();
-        List<String> sequences = readSequences(this.file);
+        List<Sequence> sequences = readSequences(this.file);
 
         //Step 1, Sort by decreasing length
-        Collections.sort(sequences, new Comparator<String>() {
+        Collections.sort(sequences, new Comparator<Sequence>() {
             @Override
-            public int compare(String o1, String o2) {
-                return -Integer.compare(o1.length(), o2.length());
+            public int compare(Sequence o1, Sequence o2) {
+                return -Integer.compare(o1.getSequence().length(), o2.getSequence().length());
             }
         });
 
@@ -39,8 +39,8 @@ public class DVD_HIT {
             cluster.add(sequences.remove(0));
 
             // Add any sequences that are similar to the cluster
-            for (Iterator<String> it = sequences.iterator(); it.hasNext(); ) {
-                String seq = it.next();
+            for (Iterator<Sequence> it = sequences.iterator(); it.hasNext(); ) {
+                Sequence seq = it.next();
                 if (filter.isSimilar(cluster, seq)) {
                     cluster.add(seq);
                     it.remove();
@@ -61,16 +61,20 @@ public class DVD_HIT {
 
     }
 
-    private List<String> readSequences(File fileName) {
-        List<String> sequences = new ArrayList<String>();
+    private List<Sequence> readSequences(File fileName) {
+        List<Sequence> sequences = new ArrayList<Sequence>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             StringBuilder currentSeq = null;
+            String seqName = null;
+            String seqDescription = null;
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith(">")) {
+                    seqName = line.substring(1, line.indexOf(" "));
+                    seqDescription = line.substring(line.indexOf(" ") + 1);
                     if (currentSeq != null) {
-                        sequences.add(currentSeq.toString());
+                        sequences.add(new Sequence(seqName, seqDescription, currentSeq.toString()));
                     }
                     currentSeq = new StringBuilder();
                 } else {
@@ -78,7 +82,7 @@ public class DVD_HIT {
                 }
             }
             if (currentSeq != null) {
-                sequences.add(br.toString());
+                sequences.add(new Sequence(seqName, seqDescription, currentSeq.toString()));
             }
             br.close();
         } catch (IOException e) {

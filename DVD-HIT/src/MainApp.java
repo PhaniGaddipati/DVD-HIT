@@ -10,18 +10,13 @@ public class MainApp {
     private static SequenceSimilarityFilter[] filters = new SequenceSimilarityFilter[]
             {new ShortWordSimilarityFilter()};
 
-    /**
-     * Usage: DVD_HIT input_file
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         if (validateArgs(args)) {
             try {
                 System.out.println("Clustering...");
                 long startTime = System.currentTimeMillis();
                 List<Cluster> clusters = new DVD_HIT(new File(args[0]))
-                        .cluster(filters[Integer.parseInt(args[1])]);
+                        .cluster(filters[Integer.parseInt(args[2])]);
                 long stopTime = System.currentTimeMillis();
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
                 System.out.println("Resulted in " + clusters.size() + " clusters.");
@@ -35,11 +30,11 @@ public class MainApp {
     }
 
     private static boolean validateArgs(String[] args) {
-        if (args.length != 2) {
+        if (args.length != 3) {
             return false;
         }
         try {
-            int filter = Integer.parseInt(args[1]);
+            int filter = Integer.parseInt(args[2]);
             if (filter < 0 || filter >= filters.length) {
                 return false;
             }
@@ -54,7 +49,7 @@ public class MainApp {
     }
 
     private static void printUsage() {
-        System.out.println("USAGE: DVD_HIT <input_file> <filter>");
+        System.out.println("USAGE: DVD_HIT <input_file> <output_file> <filter>");
         System.out.println("FILTERS: ");
         for (int i = 0; i < filters.length; i++) {
             System.out.println("\t" + i + ":\t" + filters[i].getName());

@@ -50,15 +50,19 @@ public class DVD_HIT {
             clusters.add(cluster);
         }
 
+        // Sort by descending cluster size
+        Collections.sort(clusters, new Comparator<Cluster>() {
+            @Override
+            public int compare(Cluster o1, Cluster o2) {
+                return -Integer.compare(o1.size(), o2.size());
+            }
+        });
+
         if (outFile != null) {
-            writeClusterFile(clusters, outFile);
+            ClstrFileUtils.writeClstrFile(clusters, outFile);
         }
 
         return clusters;
-    }
-
-    private void writeClusterFile(List<Cluster> clusters, File outFile) {
-
     }
 
     private List<Sequence> readSequences(File fileName) {

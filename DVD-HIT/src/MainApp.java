@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,13 +15,21 @@ public class MainApp {
         if (validateArgs(args)) {
             try {
                 System.out.println("Clustering...");
+                DVD_HIT dvd_hit = new DVD_HIT();
+                File inFile = new File(args[0]);
+                File outFile = new File(args[1]);
+                List<SequenceSimilarityFilter> filterList = new ArrayList<SequenceSimilarityFilter>();
+                for (int i = 2; i < args.length; i++) {
+                    filterList.add(filters[Integer.parseInt(args[i])]);
+                }
                 long startTime = System.currentTimeMillis();
-                List<Cluster> clusters = new DVD_HIT(new File(args[0]))
-                        .cluster(filters[Integer.parseInt(args[2])], new File(args[1]));
+                List<Cluster> clusters = dvd_hit.cluster(inFile, filterList);
                 long stopTime = System.currentTimeMillis();
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
                 System.out.println("Resulted in " + clusters.size() + " clusters.");
-
+                System.out.println("Writing '" + outFile.getAbsolutePath() + "'...");
+                ClstrFileUtils.writeClstrFile(clusters, outFile);
+                System.out.println("Done");
             } catch (IOException e) {
                 System.out.println("Error using the specified file!");
             }
@@ -31,13 +40,15 @@ public class MainApp {
 
 
     private static boolean validateArgs(String[] args) {
-        if (args.length != 3) {
+        if (args.length < 3) {
             return false;
         }
         try {
-            int filter = Integer.parseInt(args[2]);
-            if (filter < 0 || filter >= filters.length) {
-                return false;
+            for (int i = 2; i < args.length; i++) {
+                int filter = Integer.parseInt(args[i]);
+                if (filter < 0 || filter >= filters.length) {
+                    return false;
+                }
             }
         } catch (NumberFormatException ex) {
             return false;
@@ -50,8 +61,9 @@ public class MainApp {
     }
 
     private static void printUsage() {
-        System.out.println("USAGE: DVD_HIT <input_file> <output_file> <filter>");
-        System.out.println("FILTERS: ");
+        System.out.println("Usage:\n\tDVD_HIT <input_file> <output_file> <filter1_id> <filter2_id> ...");
+        System.out.println();
+        System.out.println("Filter IDs: ");
         for (int i = 0; i < filters.length; i++) {
             System.out.println("\t" + i + ":\t" + filters[i].getName());
         }

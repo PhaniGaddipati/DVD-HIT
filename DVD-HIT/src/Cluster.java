@@ -1,9 +1,9 @@
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * Created by Phani on 11/17/2015.
  */
-public class Cluster extends HashSet<Sequence> {
+public class Cluster extends ArrayList<Sequence> {
 
     private Sequence longestSeq = null;
 
@@ -20,7 +20,6 @@ public class Cluster extends HashSet<Sequence> {
 
     @Override
     public boolean remove(Object o) {
-        Object removed = o;
         boolean ret = super.remove(o);
         if (ret && longestSeq.equals(o)) {
             int maxLen = -1;

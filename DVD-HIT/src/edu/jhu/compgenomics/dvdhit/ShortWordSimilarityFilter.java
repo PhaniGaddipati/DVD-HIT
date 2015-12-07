@@ -10,39 +10,32 @@ import java.util.Set;
  */
 public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
-    private static final boolean USE_INDEX = false;
-    private static final int MIN_K = 2;
-    private static final int MAX_K = 5;
-    private static final double THRESHOLD = .90;
+    private static final int MIN_K = 8;
+    private static final int MAX_K = 8;
+    private static final double THRESHOLD = .97;
     // A mapping of a sequence to a map, which maps k to a set of the kmers
     private Map<String, Map<Integer, Set<String>>> masterIndex = new HashMap<String, Map<Integer, Set<String>>>();
+
+    //tmp vars
+    private int L;
+    private int needed;
+    private int count;
 
     @Override
     public boolean isSimilar(Cluster cluster, Sequence sequence) {
         Sequence rep = cluster.getLongestSequence();
-        if (rep == null) {
-            return false;
-        }
-        if (USE_INDEX && !masterIndex.containsKey(rep.getSequence())) {
+        if (!masterIndex.containsKey(rep.getSequence())) {
             index(rep.getSequence());
         }
         for (int k = MIN_K; k <= MAX_K; k++) {
             Set<String> index = null;
-            if (USE_INDEX) {
-                index = masterIndex.get(rep.getSequence()).get(k);
-            }
-            int L = sequence.getSequence().length();
-            int needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);
-            int count = 0;
+            index = masterIndex.get(rep.getSequence()).get(k);
+            L = sequence.getSequence().length();
+            needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);
+            count = 0;
             for (int i = 0; i < L - k; i++) {
-                if (USE_INDEX) {
-                    if (index.contains(sequence.getSequence().substring(i, i + k))) {
-                        count++;
-                    }
-                } else {
-                    if (sequence.getSequence().substring(i, i + k).equals(rep.getSequence().substring(i, i + k))) {
-                        count++;
-                    }
+                if (index.contains(sequence.getSequence().substring(i, i + k))) {
+                    count++;
                 }
                 if (count >= needed) {
                     //Passed this kmer filter
@@ -61,7 +54,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
     private void index(String rep) {
         Map<Integer, Set<String>> kmerIndex = new HashMap<Integer, Set<String>>();
         for (int k = MIN_K; k <= MAX_K; k++) {
-            Set<String> kmers = new HashSet<String>();
+            Set<String> kmers = new HashSet<String>(3000);
             for (int i = 0; i < rep.length() - k; i++) {
                 kmers.add(rep.substring(i, i + k));
             }

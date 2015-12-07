@@ -32,7 +32,12 @@ public class DVD_HIT {
         });
 
         //At this points, sequences is a list of to-be-clustered seqs
-        for (Sequence sequence : sequences) {
+        Sequence sequence;
+        for (int i = 0; i < sequences.size(); i++) {
+            if (i % 1000 == 0) {
+                System.out.println(i + "/" + sequences.size() + "\t" + clusters.size() + " clusters");
+            }
+            sequence = sequences.get(i);
             boolean added = false;
             for (Cluster cluster : clusters) {
                 if (filter.isSimilar(cluster, sequence)) {

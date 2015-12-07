@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Phani on 11/17/2015.
@@ -16,12 +19,10 @@ public class DVD_HIT {
      * clusters as needed. Greedly clustering with the given filter
      *
      * @param clusters
-     * @param initialSequences
+     * @param sequences
      * @param filter
      */
-    private void cluster(List<Cluster> clusters, List<Sequence> initialSequences, SequenceSimilarityFilter filter) {
-        //Copy the sequence list
-        List<Sequence> sequences = new ArrayList<Sequence>(initialSequences);
+    private void cluster(List<Cluster> clusters, List<Sequence> sequences, SequenceSimilarityFilter filter) {
         //Step 1, Sort by decreasing length
         Collections.sort(sequences, new Comparator<Sequence>() {
             @Override
@@ -31,26 +32,20 @@ public class DVD_HIT {
         });
 
         //At this points, sequences is a list of to-be-clustered seqs
-        int lastSize = sequences.size();
-        while (sequences.size() > 0) {
-            if (sequences.size() < (lastSize - 100)) {
-                System.out.println(sequences.size() + " left to cluster");
-                lastSize = sequences.size();
-            }
-            //Start cluster
-            Cluster cluster = new Cluster();
-            cluster.add(sequences.remove(0));
-
-            // Add any sequences that are similar to the cluster
-            for (Iterator<Sequence> it = sequences.iterator(); it.hasNext(); ) {
-                Sequence seq = it.next();
-                if (filter.isSimilar(cluster, seq)) {
-                    cluster.add(seq);
-                    it.remove();
+        for (Sequence sequence : sequences) {
+            boolean added = false;
+            for (Cluster cluster : clusters) {
+                if (filter.isSimilar(cluster, sequence)) {
+                    cluster.add(sequence);
+                    added = true;
+                    break;
                 }
             }
-
-            clusters.add(cluster);
+            if (!added) {
+                Cluster cluster = new Cluster();
+                cluster.add(sequence);
+                clusters.add(cluster);
+            }
         }
 
         // Sort by descending cluster size

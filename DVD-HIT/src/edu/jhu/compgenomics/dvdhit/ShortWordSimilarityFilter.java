@@ -1,13 +1,20 @@
 package edu.jhu.compgenomics.dvdhit;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by Phani on 11/17/2015.
  */
 public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
-    private static final int MIN_K = 2;
-    private static final int MAX_K = 5;
+    private static final int MIN_K = 8;
+    private static final int MAX_K = 8;
     private static final double THRESHOLD = .9;
+    // A mapping of a sequence to a map, which maps k to a set of the kmers
+    private Map<String, Map<Integer, Set<String>>> index = new HashMap<String, Map<Integer, Set<String>>>();
 
     @Override
     public boolean isSimilar(Cluster cluster, Sequence sequence) {
@@ -15,7 +22,11 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
         if (rep == null) {
             return false;
         }
+        if (!index.containsKey(rep.getSequence())) {
+            index(rep.getSequence());
+        }
         for (int k = MIN_K; k <= MAX_K; k++) {
+
             int L = sequence.getSequence().length();
             int needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);
             int count = 0;
@@ -36,6 +47,18 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
         }
 
         return true;
+    }
+
+    private void index(String rep) {
+        Map<Integer, Set<String>> kmerIndex = new HashMap<Integer, Set<String>>();
+        for (int k = MIN_K; k <= MAX_K; k++) {
+            Set<String> kmers = new HashSet<String>();
+            for (int i = 0; i < rep.length() - k; i++) {
+                kmers.add(rep.substring(i, i + k));
+            }
+            kmerIndex.put(k, kmers);
+        }
+        index.put(rep, kmerIndex);
     }
 
     @Override

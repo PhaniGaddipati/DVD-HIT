@@ -1,3 +1,5 @@
+package edu.jhu.compgenomics.dvdhit;
+
 /**
  * Created by Phani on 11/17/2015.
  */

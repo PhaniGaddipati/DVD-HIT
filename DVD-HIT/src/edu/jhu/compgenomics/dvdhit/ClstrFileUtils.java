@@ -1,3 +1,5 @@
+package edu.jhu.compgenomics.dvdhit;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

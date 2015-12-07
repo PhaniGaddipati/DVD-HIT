@@ -1,3 +1,5 @@
+package edu.jhu.compgenomics.dvdhit;
+
 import java.util.ArrayList;
 
 /**

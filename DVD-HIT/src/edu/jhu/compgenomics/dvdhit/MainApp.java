@@ -29,6 +29,7 @@ public class MainApp {
                 long stopTime = System.currentTimeMillis();
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
                 System.out.println("Resulted in " + clusters.size() + " clusters.");
+                System.out.println("Genus clustering score: " + EvaluationUtils.getGenusScore(clusters));
                 System.out.println("Writing '" + outFile.getAbsolutePath() + "'...");
                 ClstrFileUtils.writeClstrFile(clusters, outFile);
                 System.out.println("Done");

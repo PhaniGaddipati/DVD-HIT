@@ -12,7 +12,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
     private static final int MIN_K = 8;
     private static final int MAX_K = 8;
-    private static final double THRESHOLD = .95;
+    private static final double THRESHOLD = .90;
     // A mapping of a sequence to a map, which maps k to a set of the kmers
     private Map<String, Map<Integer, Set<String>>> masterIndex = new HashMap<String, Map<Integer, Set<String>>>();
 

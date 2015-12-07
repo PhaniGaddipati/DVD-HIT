@@ -29,6 +29,14 @@ public class Sequence {
         return name;
     }
 
+    public String getGenus() {
+        return genus;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
     @Override
     public String toString() {
         return getSequence();

@@ -12,9 +12,9 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
     private static final int MIN_K = 8;
     private static final int MAX_K = 8;
-    private static final double THRESHOLD = .9;
+    private static final double THRESHOLD = .95;
     // A mapping of a sequence to a map, which maps k to a set of the kmers
-    private Map<String, Map<Integer, Set<String>>> index = new HashMap<String, Map<Integer, Set<String>>>();
+    private Map<String, Map<Integer, Set<String>>> masterIndex = new HashMap<String, Map<Integer, Set<String>>>();
 
     @Override
     public boolean isSimilar(Cluster cluster, Sequence sequence) {
@@ -22,17 +22,16 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
         if (rep == null) {
             return false;
         }
-        if (!index.containsKey(rep.getSequence())) {
+        if (!masterIndex.containsKey(rep.getSequence())) {
             index(rep.getSequence());
         }
         for (int k = MIN_K; k <= MAX_K; k++) {
-
+            Set<String> index = masterIndex.get(rep.getSequence()).get(k);
             int L = sequence.getSequence().length();
             int needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);
             int count = 0;
             for (int i = 0; i < L - k; i++) {
-                if (sequence.getSequence().substring(i, i + k)
-                        .equals(rep.getSequence().substring(i, i + k))) {
+                if (index.contains(sequence.getSequence().substring(i, i + k))) {
                     count++;
                 }
                 if (count >= needed) {
@@ -58,7 +57,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
             }
             kmerIndex.put(k, kmers);
         }
-        index.put(rep, kmerIndex);
+        masterIndex.put(rep, kmerIndex);
     }
 
     @Override

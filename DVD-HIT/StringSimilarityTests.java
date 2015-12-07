@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 /*
@@ -12,9 +16,19 @@ import java.util.TreeSet;
 public class StringSimilarityTests {
 	public static void main(String[] args) {
 		String c = "chimpanzee"; String h = "human";
+		String seq1 = "AGCGAACGCTGGCGGCAGGCCTAACACATGCAAGTCGAGCGCCCAGCAATGGGAGCGGCAGACGGGTGAGTAACGCGTGGGGATGTGCCCAATGGTGCGGAATAACCCAGGGAAACTTGGATTAATACCGCATGTGCCCTTCGGGGGAAAGATTTATCGCCATTGGATCAACCCGCGTCTGATTAGCTAGTTGGTGAGGTAAAGGCTCACCAAGGCGACGATCAGTAGCTGGTCTGAGAGGATGATCAGCCACACTGGGACTGAGACACGGCCCAGACTCCTACGGGAGGCAGCAGTGGGGAATATTGGACAATGGGCGCAAGCCTGATCCAGCCATGCCGCGTGAGTGATGAAGGCCTTAGGGTTGTAAAGCTCTTTCGCCGGTGAAGATAATGACGGTAACCGGAGAAGAAGCCCCGGCTAACTTCGTGCCAGCAGCCGCGGTAATACGAAGGGGGCAAGCGTTGCTCGGAATCACTGGGCGTAAAGCGCACGTAGGCGGATCGTTAAGTCAGGGGTGAAAGCCTGGAGCTCAACTCCAGAACTGCCCTTGATACTGGCGATCTTGAGTTCGAGAGAGGTTGGTGGAACTCCGAGTGTAGAGGTGAAATTCGTAGATATTCGGAAGAACACCAGTGGCGAAGGCGGCCAACTGGCTCGATACTGACGCTGAGGTGCGAAAGCGTGGGGAGCAAACAGGATTAGATACCCTGGTAGTCCACGCCGTAAACGATGGATGCTAGCCGTTGGGGAGCTTGCTCTTCAGTGGCGCAGCTAACGCCTTAAGCATCCCGCCTGGGGAGTACGGTCGCAAGATTAAAACTCAAAGGAATTGACGGGGGCCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGCAGAACCTTACCAGCCTTTGACATGGCAGGACGACTTCCGGAGACGGATTTCTTCCAGCAATGGACCTGCACACAGGTGCTGCATGGCTGTCGTCAGCTCGTGTCGTGAGATGTTGGGTTAAGTCCCGCAACGAGCGCAACCCTCGCCTTTAGTTGCCATCATTCAGTTGGGCACTCTAAAGGGACTGCCGGTGATAAGCCGCGAGGAAGGTGGGGATGACGTCAAGTCCTCATGGCCCTTACGGGCTGGGCTACACACGTGCTACAATGGCGGTGACAATGGGATGCGAGCCTGCGAGGGTGAGCAAATCTCCAAAAGCCGTCTCAGTTCGGATTGCACTCTGCAACTCGAGTGCATGAAGTTGGAATCGCTAGTAATCGTGGATCAGCATGCCACGGTGAATACGTTCCCGGGCCTTGTACACACCGCCCGTCACACCATGGGAGTTGGCTTTACCCGAAGGCGTTGCGCTAACCGCAAGGAGGCAGGCGACCACGGTAGGGTCAGTGACTGGGGTGAAG";
+		String seq2 = "CGCTGGCGGAATGCTTTACACATGCAAGTCGAACGATGAACCTTAGCTTGCTAAGGGGATTAGTGGCGAACGGGTGAGTAATATATCGGAACGTGCCTTGTAATGGGGGATAACTAGTCGAAAGATTAGCTAATACCGCATACGCCCTGAGGGGGAAAGTAGGGGATCTTCGGACCTTACGTTATAAGAGCGGCCGATATCTGATTAGCTAGTTGGTGGGGTAATGGCCTACCAAGGCTTCGATCAGTAGCTGGTCTGAGAGGACGACCAGCCACACTGGAACTGAGACACGGTCCAGACTCCTACGGGAGGCAGCAGTGGGGAATTTTGGACAATGGGCGCAAGCCTGATCCAGCCATTCCGCGTGAGTGAAGAAGGCCTTCGGGTTGTAAAGCTCTTTCGCAAGGGAAGAAAACTTACATTCTAATAAAGTGTGAGGCTGACGGTACCTTGATAAGAAGCACCGGCTAACTACGTGCCAGCAGCCGCGGTAATACGTAGGGTGCGAGCGTTAATCGGAATTACTGGGCGTAAAGCGTGCGCAGGCGGTTTTGTAAGTCAGATGTGAAATCCCCGAGCTCAACTTGGGAACTGCGTTTGAAACTACAAGACTAGAATATGTCAGAGGGGGGTAGAATTCCACGTGTAGCAGTGAAATGCGTAGAGATGTGGAGGAATACCAATGGCGAAGGCAGCCCCCTGGGATAATATTGACGCTCATGCACGAAAGCGTGGGGAGCAAACAGGATTAGATACCCTGGTAGTCCACGCCCTAAACGATGTCTACTAGTTGTTGGTGGAGTAAAATCCATGAGTAACGCAGCTAACGCGTGAAGTAGACCGCCTGGGGAGTACGGTCGCAAGATTAAACTCAAAGGAATTGACGGGGGCCCGCACAAGCGGTGGATTATGTGGATTAATTCGATGCAACGCGAAAACCTTACCTGGCCTTGACATGCCACTAACGAAGCAGAGATGCATTAGGTGCCCGTAAGGGAAAGTGGACACAGGTGCTGCATGGCTGTCGTCAGCTCGTGTCGTGAGATGTTGGGTTAAGTCCCGCAACGAGCGCAACCCTTGCCATTAATTGCCATCATTTAGTTGGGCACTTTAATGGGACTGCCGGTGACAAACCGGAGGAAGGTGGGGATGACGTCAAGTCCTCATGGCCCTTATGGCCAGGGCTTCACACGTAATACAATGGTCGGTACAGAGAGTTGCCAACCCGCGAGGGGGAGCTAATCTCAGAAAGCCGATCGTAGTCCGGATTGTTCTCTGCAACTCGAGAGCATGAAGTCGGAATCGCTAGTAATCGCGGATCAGCATGTCGCGGTGAATACGTTCCCGGGCCTTGTACACACCGCCCGTCACACCATGGGAGTGGGTTTTACCAGAAGTAGTTAGTCTAACCGTAAGGGGGACGATTACCACGGTAGTATTCATGACTGGGGTGAAGTCGTAACAAG";
 		System.out.println("Comparing " + h + " and " + c + "...");
 		System.out.println("1. LLCS: " + LLCS(h, c));
-		System.out.println("2. Jaccard: " + Jaccard(h, c));		
+		System.out.println("2.1 Jaccard: " + Jaccard(c, h, 1));
+		System.out.println("2.2 Cosine: " + Cosine(c, h, 1));
+		
+		System.out.println();
+		
+		System.out.println("Comparing Seq1 and Seq2...");
+		System.out.println("1. LLCS: " + LLCS(seq1, seq2));
+		System.out.println("2.1 Jaccard: " + Jaccard(seq1, seq2, 8));
+		System.out.println("2.2 Cosine: " + Cosine(seq1, seq2, 6));
 	}//end main
 	
 	/***********************************************************************************
@@ -62,43 +76,90 @@ public class StringSimilarityTests {
     }
     
     /***********************************************************************************
-    ************************************* 2. Jaccard Similarity ************************
+    ********************** 2. Q Gram Metrics********************************************
     ***********************************************************************************/
-	public static Collection<Character> stringToCharacterSet(String string){
-		Collection<Character> charSet = new HashSet<Character>();
-		for(Character character : string.toCharArray()) charSet.add(character);
-		return charSet;
-	}//end stringtoCharacterSet
+	public static Collection<String> stringToQGramSet(String s, int q){
+		Collection<String> gramSet = new HashSet<String>();
+		for (int i = 0; i <= s.length() - q; i++) gramSet.add(s.substring(i, i+q));
+		return gramSet;
+	}//end stringToQGramSet
 	
-	public static Collection<Character> uniqueCharacters(Collection<Character> vector){
-		Collection<Character> uniqueSet = new HashSet<>();
-		for(Character c : vector) {
-			if(!uniqueSet.contains(c)) uniqueSet.add(c);
+	public static Map<String, Integer> stringToQGramMap(String s, int q){
+		Map<String, Integer> gramMap = new HashMap<>();
+		for (int i = 0; i <= s.length() - q; i++) {
+			String sub = s.substring(i, i+q);
+			if (gramMap.containsKey(sub)) gramMap.put(sub, gramMap.get(sub)+1);
+			else gramMap.put(sub, 1);
 		}//end for
-		return uniqueSet;
-	}//end uniqueCharacters
+		return gramMap;
+	}//end stringToQGramSet
 	
-	public static Collection<Character> union(String string1, String string2){
-		Collection<Character> mergedVector = new TreeSet<>();
-		mergedVector.addAll(stringToCharacterSet(string1));
-		mergedVector.addAll(stringToCharacterSet(string2));
-		return uniqueCharacters(mergedVector);
-	}//end union
-	
-	public static Collection<Character> intersect(String string1, String string2){
-		//string1.
-		Collection<Character> vector1 = uniqueCharacters(stringToCharacterSet(string1));
-		Collection<Character> vector2 = uniqueCharacters(stringToCharacterSet(string2));
-		Collection<Character> intersectVector = new TreeSet<Character>();
-		for(Character c1 : vector1) {
-			for(Character c2 : vector2) {
-				if(c1.equals(c2)) intersectVector.add(c1);
-			}//end for
-		}//end for
-		return intersectVector;
-	}//end intersect
+	public static Collection<String> union(Collection<String> gram1, Collection<String> gram2) {
+		Collection<String> union = new HashSet<>();
+		union.addAll(gram1);
+		union.addAll(gram2);
+		return union;
+	}//end Union
+
+    public static Collection<String> intersect(Collection<String> gram1, Collection<String> gram2) {
+        Collection<String> intersection = new HashSet<>();
+        for (String g1 : gram1) {
+            if(gram2.contains(g1)) intersection.add(g1);
+        } //end for
+        return intersection;
+    }
     
-    public static float Jaccard(String a, String b) {
-		return (float) intersect(a, b).size() / (float) union(a, b).size();
+    public static float innerproduct(float[] v1, float[] v2) {
+        float sum = (float) 0.0;
+    	if (v1.length != v2.length) {
+    		throw new RuntimeException("Dimensions don't agree");
+    	}
+    	
+        for (int i = 0; i < v1.length; i++) sum += (v1[i] * v2[i]);
+        return sum;
+    }
+    
+    public static float magnitude(float[] v) { 
+    	float sum = (float) 0.0;
+        for (int i = 0; i < v.length; i++) sum += Math.pow(v[i], 2);
+        return (float) Math.sqrt(sum);
+    }
+    
+    /*
+     * Jaccard Index
+     */
+    public static float Jaccard(String a, String b, int q) {
+    	Collection<String> gram1 = stringToQGramSet(a, q);
+    	Collection<String> gram2 = stringToQGramSet(b, q);
+    	Collection<String> union = union(gram1, gram2);
+    	Collection<String> intersection = intersect(gram1, gram2);
+    	System.out.println("Gram 1: " + gram1);
+    	System.out.println("Gram 2: " + gram2);
+    	System.out.println("Intersection: " + intersection);
+    	System.out.println("Union: " + union);
+		return (float) intersection.size() / (float) union.size();
     }//end Jaccard
+    
+    public static float Cosine(String a, String b, int q) {
+    	Map<String, Integer> gram1 = stringToQGramMap(a, q);
+    	Map<String, Integer> gram2 = stringToQGramMap(b, q);
+    	Collection<String> union = union(gram1.keySet(), gram2.keySet());
+    	
+    	float[] vector1 = new float[union.size()];
+    	float[] vector2 = new float[union.size()];
+    	Iterator<String> itr =  union.iterator(); int i = 0;
+    	while (itr.hasNext()) {
+    		String key = itr.next();
+    		vector1[i] = gram1.getOrDefault(key, 0);
+    		vector2[i] = gram2.getOrDefault(key, 0);
+    		i++;
+    	}//end while
+    	    	
+    	float dot = innerproduct(vector1, vector2);
+    	float mag1 = magnitude(vector1);
+    	float mag2 = magnitude(vector2);
+    	
+    	return dot/(mag1*mag2);
+    	
+    }
 }//end StringSimilarityTest

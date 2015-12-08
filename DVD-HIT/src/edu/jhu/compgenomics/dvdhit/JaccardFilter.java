@@ -1,6 +1,5 @@
 package edu.jhu.compgenomics.dvdhit;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,36 +17,34 @@ public class JaccardFilter implements SequenceSimilarityFilter {
     private Map<String, Map<Integer, Map<String, Integer>>> masterIndex = new HashMap<>();
 
     @Override
-    
+
     public boolean isSimilar(Cluster cluster, Sequence sequence) {
         Sequence rep = cluster.getLongestSequence();
         if (!masterIndex.containsKey(rep.getSequence())) {
             addToMasterIndex(rep.getSequence());
         }
-        Map<Integer, Map<String, Integer>> seqKmerIndexes = getStringKmerCounts(sequence.getSequence());
+        if (!masterIndex.containsKey(sequence.getSequence())) {
+            addToMasterIndex(sequence.getSequence());
+        }
         for (int k = MIN_K; k <= MAX_K; k++) {
             Map<String, Integer> repIndex = masterIndex.get(rep.getSequence()).get(k);
-            Map<String, Integer> seqIndex = seqKmerIndexes.get(k);
-            
+            Map<String, Integer> seqIndex = masterIndex.get(sequence.getSequence()).get(k);
+
             Set<String> union = new HashSet<String>(repIndex.keySet());
             union.addAll(seqIndex.keySet());
 
             Set<String> intersection = new HashSet<String>(repIndex.keySet());
             intersection.retainAll(seqIndex.keySet());
-            
+
             float jaccard = (float) intersection.size() / (float) union.size();
 //            System.out.println(jaccard);
             if (jaccard < THRESHOLD) return false;
         }
+        masterIndex.remove(sequence.getSequence());
         return true;
     }
 
     private void addToMasterIndex(String rep) {
-        Map<Integer, Map<String, Integer>> kmerIndex = getStringKmerCounts(rep);
-        masterIndex.put(rep, kmerIndex);
-    }
-
-    private Map<Integer, Map<String, Integer>> getStringKmerCounts(String rep) {
         Map<Integer, Map<String, Integer>> kmerIndex = new HashMap<>();
         String kmer;
         for (int k = MIN_K; k <= MAX_K; k++) {
@@ -59,7 +56,7 @@ public class JaccardFilter implements SequenceSimilarityFilter {
             }
             kmerIndex.put(k, kmers);
         }
-        return kmerIndex;
+        masterIndex.put(rep, kmerIndex);
     }
 
     @Override

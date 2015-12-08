@@ -82,6 +82,6 @@ public class CosineFilter implements SequenceSimilarityFilter {
 
     @Override
     public String getName() {
-        return "Jaccard";
+        return "Cosine";
     }
 }

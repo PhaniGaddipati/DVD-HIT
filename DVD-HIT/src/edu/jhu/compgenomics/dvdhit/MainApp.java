@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class MainApp {
 
+    private static final String REF_CLSTR =
+            "C:\\Users\\Phani\\OneDrive\\School\\College\\Computational Genomics\\DVD-HIT\\data\\16s_cdhit_k_8_thresh_90.clstr";
     private static SequenceSimilarityFilter[] filters = new SequenceSimilarityFilter[]
             {new ShortWordSimilarityFilter()};
 
@@ -30,6 +32,7 @@ public class MainApp {
                 System.out.println("Finished in " + (stopTime - startTime) / 1000 + " seconds.");
                 System.out.println("Resulted in " + clusters.size() + " clusters.");
                 System.out.println("Genus clustering score: " + EvaluationUtils.getGenusScore(clusters));
+                printRef(inFile);
                 System.out.println("Writing '" + outFile.getAbsolutePath() + "'...");
                 ClstrFileUtils.writeClstrFile(clusters, outFile);
                 System.out.println("Done");
@@ -38,6 +41,18 @@ public class MainApp {
             }
         } else {
             printUsage();
+        }
+    }
+
+    private static void printRef(File fasta) {
+        File file = new File(REF_CLSTR);
+        if (file.exists()) {
+            try {
+                List<Cluster> clusters = ClstrFileUtils.readClstrFile(file, fasta);
+                System.out.println("CD-HIT Genus clustering score: " + EvaluationUtils.getGenusScore(clusters));
+            } catch (IOException e) {
+                System.out.println("Couldn't print CD-HIT Reference");
+            }
         }
     }
 

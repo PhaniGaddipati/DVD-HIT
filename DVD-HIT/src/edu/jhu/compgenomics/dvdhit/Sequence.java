@@ -16,9 +16,18 @@ public class Sequence {
         this.name = name;
         this.description = description;
         String tmp = description.toLowerCase().replace("'", "").replace("[", "").replace("]", "").trim();
-        genus = tmp.substring(0, tmp.indexOf(" "));
-        tmp = tmp.substring(tmp.indexOf(" ") + 1);
-        species = tmp.substring(0, tmp.indexOf(" "));
+        if (tmp.matches("[a-z]+ [a-z]+ .+")) {
+            genus = tmp.substring(0, tmp.indexOf(" "));
+            tmp = tmp.substring(tmp.indexOf(" ") + 1);
+            species = tmp.substring(0, tmp.indexOf(" "));
+        } else {
+            genus = "";
+            species = "";
+        }
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getSequence() {

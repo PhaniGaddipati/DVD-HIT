@@ -8,9 +8,9 @@ import java.util.Map;
  */
 public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
-    private static final int MIN_K = 8;
-    private static final int MAX_K = 8;
-    private static final double THRESHOLD = .95;
+    private int MIN_K = 8;
+    private int MAX_K = 8;
+    private double threshold = .95;
     // A mapping of a sequence to a map, which maps k to a map of the counts of the kmer
     private Map<String, Map<Integer, Map<String, Integer>>> masterIndex = new HashMap<>();
 
@@ -35,7 +35,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
             repIndex = masterIndex.get(rep.getSequence()).get(k);
             seqIndex = masterIndex.get(sequence.getSequence()).get(k);
             L = sequence.getSequence().length();
-            needed = (int) Math.round(L - k + 1 - (1 - THRESHOLD) * k * L);
+            needed = (int) Math.round(L - k + 1 - (1 - threshold) * k * L);
             count = 0;
             for (String kmer : seqIndex.keySet()) {
                 if (repIndex.containsKey(kmer)) {
@@ -74,5 +74,16 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
     @Override
     public String getName() {
         return "Short Word";
+    }
+
+    @Override
+    public void setK(int k) {
+        this.MIN_K = k;
+        this.MAX_K = k;
+    }
+
+    @Override
+    public void setThreshold(double thresh) {
+        this.threshold = thresh;
     }
 }

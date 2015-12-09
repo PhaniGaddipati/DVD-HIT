@@ -10,9 +10,9 @@ import java.util.Set;
  */
 public class JaccardFilter implements SequenceSimilarityFilter {
 
-    private static final int MIN_K = 8;
-    private static final int MAX_K = 8;
-    private static final double THRESHOLD = .7;
+    private int MIN_K = 8;
+    private int MAX_K = 8;
+    private double threshold = .7;
     // A mapping of a sequence to a map, which maps k to a set of the kmers
     private Map<String, Map<Integer, Map<String, Integer>>> masterIndex = new HashMap<>();
 
@@ -38,7 +38,7 @@ public class JaccardFilter implements SequenceSimilarityFilter {
 
             float jaccard = (float) intersection.size() / (float) union.size();
 //            System.out.println(jaccard);
-            if (jaccard < THRESHOLD) return false;
+            if (jaccard < threshold) return false;
         }
         masterIndex.remove(sequence.getSequence());
         return true;
@@ -62,5 +62,16 @@ public class JaccardFilter implements SequenceSimilarityFilter {
     @Override
     public String getName() {
         return "Jaccard";
+    }
+
+    @Override
+    public void setK(int k) {
+        this.MIN_K = k;
+        this.MAX_K = k;
+    }
+
+    @Override
+    public void setThreshold(double thresh) {
+        this.threshold = thresh;
     }
 }

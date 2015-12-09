@@ -7,10 +7,10 @@ import java.util.*;
  */
 public class CosineFilter implements SequenceSimilarityFilter {
 
-    private static final int K = 8;
-    private static final double THRESHOLD = .9;
     // A mapping of a sequence to a map, which maps k to a set of the kmers
     private static Map<String, Map<String, Integer>> masterIndex = new HashMap<String, Map<String, Integer>>();
+    private int K = 8;
+    private double threshold = .9;
 
     public static float innerproduct(float[] v1, float[] v2) {
         float sum = (float) 0.0;
@@ -65,7 +65,7 @@ public class CosineFilter implements SequenceSimilarityFilter {
         float mag1 = magnitude(vector1);
         float mag2 = magnitude(vector2);
 
-        if (dot / (mag1 * mag2) < THRESHOLD) return false;
+        if (dot / (mag1 * mag2) < threshold) return false;
         masterIndex.remove(seq);
         return true;
     }
@@ -84,4 +84,16 @@ public class CosineFilter implements SequenceSimilarityFilter {
     public String getName() {
         return "Cosine";
     }
+
+    @Override
+    public void setK(int k) {
+        this.K = k;
+    }
+
+    @Override
+    public void setThreshold(double thresh) {
+        this.threshold = thresh;
+    }
+
+
 }

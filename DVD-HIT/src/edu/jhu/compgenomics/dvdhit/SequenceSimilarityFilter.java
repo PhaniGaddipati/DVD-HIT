@@ -16,4 +16,8 @@ public interface SequenceSimilarityFilter {
 
     public String getName();
 
+    public void setK(int k);
+
+    public void setThreshold(double thresh);
+
 }

@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Phani on 11/17/2015.
+ * Created by Phani on 12/10/2015.
  */
-public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
-
+public class SpacedShortWordFilter implements SequenceSimilarityFilter {
     private int MIN_K = 8;
     private int MAX_K = 8;
     private double threshold = .95;
@@ -58,11 +57,16 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
     public void addToMasterIndex(String rep) {
         Map<Integer, Map<String, Integer>> kmerIndex = new HashMap<>();
+        char kmerArr[];
         String kmer;
         for (int k = MIN_K; k <= MAX_K; k++) {
             Map<String, Integer> kmers = new HashMap<>(3000);
-            for (int i = 0; i < rep.length() - k; i++) {
-                kmer = rep.substring(i, i + k);
+            for (int i = 0; i < rep.length() - k * 2; i++) {
+                kmerArr = new char[k];
+                for (int d = 0; d < k; d++) {
+                    kmerArr[d] = rep.charAt(d * 2);
+                }
+                kmer = new String(kmerArr);
                 int oldVal = kmers.get(kmer) == null ? 0 : kmers.get(kmer);
                 kmers.put(kmer, oldVal + 1);
             }
@@ -73,7 +77,7 @@ public class ShortWordSimilarityFilter implements SequenceSimilarityFilter {
 
     @Override
     public String getName() {
-        return "Short Word";
+        return "Spaced Subsequence Short Word";
     }
 
     @Override

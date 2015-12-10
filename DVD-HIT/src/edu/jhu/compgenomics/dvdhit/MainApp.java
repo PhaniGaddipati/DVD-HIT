@@ -13,8 +13,8 @@ public class MainApp {
     private static final String REF_CLSTR =
             "C:\\Users\\Phani\\OneDrive\\School\\College\\Computational Genomics\\DVD-HIT\\data\\16s_cdhit_k_8_thresh_90.clstr";
     private static SequenceSimilarityFilter[] filters = new SequenceSimilarityFilter[]
-            {new ShortWordSimilarityFilter(), new JaccardFilter(), new CosineFilter(),
-                    new LCSFilter()};
+            {new ShortWordFilter(), new JaccardFilter(), new CosineFilter(),
+                    new LCSFilter(), new SpacedShortWordFilter()};
 
     public static void main(String[] args) {
         if (validateArgs(args)) {

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by Phani on 11/17/2015.
+ * A filter using the length of the longest common sequence.
+ * The K parameter is not used in this filter.
  */
-public class LCSFilter implements SequenceSimilarityFilter {
+public class LLCSFilter implements SequenceSimilarityFilter {
 
     private double threshold = .7;
 

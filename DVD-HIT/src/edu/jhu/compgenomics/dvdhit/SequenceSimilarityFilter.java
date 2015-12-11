@@ -6,7 +6,7 @@ package edu.jhu.compgenomics.dvdhit;
 public interface SequenceSimilarityFilter {
 
     /**
-     * Returns if sequence is similar to ALL sequences in cluster
+     * Returns if sequence belongs in the given cluster.
      *
      * @param cluster  The cluster to compare against
      * @param sequence The candidate sequence to add to cluster

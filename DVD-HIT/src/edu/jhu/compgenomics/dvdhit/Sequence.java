@@ -1,7 +1,9 @@
 package edu.jhu.compgenomics.dvdhit;
 
 /**
- * Created by Phani on 11/23/2015.
+ * A class representing a sequence. A sequence contains the name,
+ * description, and the sequence content. The genus and species
+ * are also parsed out from the description if possible.
  */
 public class Sequence {
 

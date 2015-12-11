@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Phani on 11/17/2015.
+ * Implements the standard short word filter as described:
+ * http://blog.nextgenetics.net/?e=26
  */
 public class ShortWordFilter implements SequenceSimilarityFilter {
 

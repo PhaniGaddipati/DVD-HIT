@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Created by Phani on 11/23/2015.
+ * Utils to read and write cluster files.
  */
 public class ClstrFileUtils {
 

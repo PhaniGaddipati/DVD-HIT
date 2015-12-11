@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Phani on 12/10/2015.
+ * Very similar to ShortWord but instead of substrings, uses
+ * spaced subsequences following the format 101010..
  */
 public class SpacedShortWordFilter implements SequenceSimilarityFilter {
     private int MIN_K = 8;

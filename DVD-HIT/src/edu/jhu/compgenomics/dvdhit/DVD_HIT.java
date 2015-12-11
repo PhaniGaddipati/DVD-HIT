@@ -50,14 +50,9 @@ public class DVD_HIT {
             }
         }
 
-        // Sort by descending cluster size
-        Collections.sort(clusters, new Comparator<Cluster>() {
-            @Override
-            public int compare(Cluster o1, Cluster o2) {
-                return -Integer.compare(o1.size(), o2.size());
-            }
-        });
-
+        // Sort by descending cluster size for easier clstr file comparisons
+        // Not truly neccessary, more for convenience
+        Collections.sort(clusters, (o1, o2) -> -Integer.compare(o1.size(), o2.size()));
     }
 
     /**
@@ -99,5 +94,4 @@ public class DVD_HIT {
 
         return clusters;
     }
-
 }

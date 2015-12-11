@@ -3,12 +3,15 @@ package edu.jhu.compgenomics.dvdhit;
 import java.util.ArrayList;
 
 /**
- * Created by Phani on 11/17/2015.
+ * A representation of a Cluster. Simply a list that keeps track of the longest
+ * sequence contained, which acts as the representative sequence.
  */
 public class Cluster extends ArrayList<Sequence> {
 
+    /**
+     * The longest sequence to act as the representative sequence.
+     */
     private Sequence longestSeq = null;
-
 
     @Override
     public boolean add(Sequence s) {

@@ -12,6 +12,12 @@ import java.util.List;
  * Created by Phani on 12/7/2015.
  */
 public class FASTAUtils {
+    /**
+     * Reads a FASTA file and returns all of the sequences.
+     *
+     * @param fileName
+     * @return
+     */
     public static List<Sequence> readSequences(File fileName) {
         List<Sequence> sequences = new ArrayList<Sequence>();
         try {

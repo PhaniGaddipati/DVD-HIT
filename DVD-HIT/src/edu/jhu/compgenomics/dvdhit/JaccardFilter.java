@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Phani on 11/17/2015.
+ * Uses the original Jaccard index to implement a similarity filter.
  */
 public class JaccardFilter implements SequenceSimilarityFilter {
 
@@ -37,26 +37,30 @@ public class JaccardFilter implements SequenceSimilarityFilter {
             intersection.retainAll(seqIndex.keySet());
 
             float jaccard = (float) intersection.size() / (float) union.size();
-//            System.out.println(jaccard);
             if (jaccard < threshold) return false;
         }
         masterIndex.remove(sequence.getSequence());
         return true;
     }
 
-    private void addToMasterIndex(String rep) {
+    /**
+     * Adds all k-mers of the String into the master index.
+     *
+     * @param s
+     */
+    private void addToMasterIndex(String s) {
         Map<Integer, Map<String, Integer>> kmerIndex = new HashMap<>();
         String kmer;
         for (int k = MIN_K; k <= MAX_K; k++) {
             Map<String, Integer> kmers = new HashMap<>(3000);
-            for (int i = 0; i < rep.length() - k; i++) {
-                kmer = rep.substring(i, i + k);
+            for (int i = 0; i < s.length() - k; i++) {
+                kmer = s.substring(i, i + k);
                 int oldVal = kmers.get(kmer) == null ? 0 : kmers.get(kmer);
                 kmers.put(kmer, oldVal + 1);
             }
             kmerIndex.put(k, kmers);
         }
-        masterIndex.put(rep, kmerIndex);
+        masterIndex.put(s, kmerIndex);
     }
 
     @Override

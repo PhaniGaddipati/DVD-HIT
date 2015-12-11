@@ -1,4 +1,4 @@
-package edu.jhu.compgenomics.dvdhit;
+package edu.jhu.compgenomics.dvdhit.model;
 
 /**
  * A class representing a sequence. A sequence contains the name,

@@ -1,4 +1,6 @@
-package edu.jhu.compgenomics.dvdhit;
+package edu.jhu.compgenomics.dvdhit.utils;
+
+import edu.jhu.compgenomics.dvdhit.model.Sequence;
 
 import java.io.BufferedReader;
 import java.io.File;

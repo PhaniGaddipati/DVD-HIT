@@ -1,5 +1,10 @@
 package edu.jhu.compgenomics.dvdhit;
 
+import edu.jhu.compgenomics.dvdhit.filters.*;
+import edu.jhu.compgenomics.dvdhit.model.Cluster;
+import edu.jhu.compgenomics.dvdhit.utils.ClstrFileUtils;
+import edu.jhu.compgenomics.dvdhit.utils.EvaluationUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

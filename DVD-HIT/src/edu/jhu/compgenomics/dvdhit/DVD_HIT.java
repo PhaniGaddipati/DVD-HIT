@@ -1,5 +1,10 @@
 package edu.jhu.compgenomics.dvdhit;
 
+import edu.jhu.compgenomics.dvdhit.filters.SequenceSimilarityFilter;
+import edu.jhu.compgenomics.dvdhit.model.Cluster;
+import edu.jhu.compgenomics.dvdhit.model.Sequence;
+import edu.jhu.compgenomics.dvdhit.utils.FASTAUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package edu.jhu.compgenomics.dvdhit;
+package edu.jhu.compgenomics.dvdhit.model;
 
 import java.util.ArrayList;
 

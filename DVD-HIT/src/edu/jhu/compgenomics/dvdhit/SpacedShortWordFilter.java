@@ -65,7 +65,7 @@ public class SpacedShortWordFilter implements SequenceSimilarityFilter {
             for (int i = 0; i < rep.length() - k * 2; i++) {
                 kmerArr = new char[k];
                 for (int d = 0; d < k; d++) {
-                    kmerArr[d] = rep.charAt(d * 2);
+                    kmerArr[d] = rep.charAt(i + d * 2);
                 }
                 kmer = new String(kmerArr);
                 int oldVal = kmers.get(kmer) == null ? 0 : kmers.get(kmer);

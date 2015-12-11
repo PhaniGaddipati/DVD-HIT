@@ -37,7 +37,7 @@ public class DVD_HIT {
         Sequence sequence;
         for (int i = 0; i < sequences.size(); i++) {
             if (i % 1000 == 0) {
-                System.out.println(i + "/" + sequences.size() + "\t" + clusters.size() + " clusters");
+                //System.out.println(i + "/" + sequences.size() + "\t" + clusters.size() + " clusters");
             }
             sequence = sequences.get(i);
             boolean added = false;

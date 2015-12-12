@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A filter using the length of the longest common sequence.
+ * A filter using the length of the longest common subsequence.
  * The K parameter is not used in this filter.
+ * Based on
+ * http://wordaligned.org/articles/longest-common-subsequence
  */
 public class LLCSFilter implements SequenceSimilarityFilter {
 

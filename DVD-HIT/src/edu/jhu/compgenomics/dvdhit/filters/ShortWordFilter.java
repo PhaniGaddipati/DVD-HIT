@@ -60,7 +60,7 @@ public class ShortWordFilter implements SequenceSimilarityFilter {
         return true;
     }
 
-    public void addToMasterIndex(String rep) {
+    private void addToMasterIndex(String rep) {
         Map<Integer, Map<String, Integer>> kmerIndex = new HashMap<>();
         String kmer;
         for (int k = MIN_K; k <= MAX_K; k++) {

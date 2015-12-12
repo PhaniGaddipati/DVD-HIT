@@ -21,7 +21,7 @@ public class FASTAUtils {
      * @return
      */
     public static List<Sequence> readSequences(File fileName) {
-        List<Sequence> sequences = new ArrayList<Sequence>();
+        List<Sequence> sequences = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             StringBuilder currentSeq = null;
@@ -37,7 +37,8 @@ public class FASTAUtils {
                     }
                     currentSeq = new StringBuilder();
                 } else {
-                    currentSeq.append(line.trim());
+                    if (currentSeq != null)
+                        currentSeq.append(line.trim());
                 }
             }
             if (currentSeq != null) {

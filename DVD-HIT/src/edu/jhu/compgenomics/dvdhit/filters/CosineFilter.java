@@ -11,7 +11,7 @@ import java.util.*;
 public class CosineFilter implements SequenceSimilarityFilter {
 
     // A mapping of a sequence to a map, which maps k to a set of the kmers
-    private Map<String, Map<String, Integer>> masterIndex = new HashMap<String, Map<String, Integer>>();
+    private Map<String, Map<String, Integer>> masterIndex = new HashMap<>();
     private int K = 8;
     private double threshold = .9;
 
@@ -22,7 +22,7 @@ public class CosineFilter implements SequenceSimilarityFilter {
      * @param v2
      * @return
      */
-    public static float innerProduct(float[] v1, float[] v2) {
+    private static float innerProduct(float[] v1, float[] v2) {
         float sum = (float) 0.0;
         if (v1.length != v2.length) {
             throw new RuntimeException("Dimensions don't agree");
@@ -36,16 +36,19 @@ public class CosineFilter implements SequenceSimilarityFilter {
 
     /**
      * Computes the magnitude of a vector.
+     *
      * @param v The vector to compute the magnitude of
      * @return The magnitude of vector v
      */
-    public static float magnitude(float[] v) {
+    private static float magnitude(float[] v) {
         float sum = (float) 0.0;
-        for (int i = 0; i < v.length; i++) sum += Math.pow(v[i], 2);
+        for (float aV : v) {
+            sum += Math.pow(aV, 2);
+        }
         return (float) Math.sqrt(sum);
     }
 
-    public static Collection<String> union(Collection<String> gram1, Collection<String> gram2) {
+    private static Collection<String> union(Collection<String> gram1, Collection<String> gram2) {
         Collection<String> union = new HashSet<>();
         union.addAll(gram1);
         union.addAll(gram2);
@@ -90,6 +93,7 @@ public class CosineFilter implements SequenceSimilarityFilter {
 
     /**
      * Adds all k-mers of the String into the master index.
+     *
      * @param s
      */
     private void index(String s) {

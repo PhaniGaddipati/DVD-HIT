@@ -25,14 +25,12 @@ public class EvaluationUtils {
         double scoresSum = 0;
         for (Cluster cluster : clusters) {
             //Find most common genus
-            Map<String, Integer> counts = new HashMap<String, Integer>();
+            Map<String, Integer> counts = new HashMap<>();
             int maxCount = -1;
-            String maxGenus;
             for (Sequence s : cluster) {
                 int newVal = (counts.get(s.getGenus()) == null ? 0 : counts.get(s.getGenus())) + 1;
                 counts.put(s.getGenus(), newVal);
                 if (newVal > maxCount) {
-                    maxGenus = s.getGenus();
                     maxCount = newVal;
                 }
             }

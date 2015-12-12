@@ -4,7 +4,8 @@ import edu.jhu.compgenomics.dvdhit.model.Cluster;
 import edu.jhu.compgenomics.dvdhit.model.Sequence;
 
 /**
- * Created by Phani on 11/17/2015.
+ * A filter that is responsible for determining if a sequence
+ * belongs in a given cluster.
  */
 public interface SequenceSimilarityFilter {
 
@@ -15,12 +16,12 @@ public interface SequenceSimilarityFilter {
      * @param sequence The candidate sequence to add to cluster
      * @return Whether sequence is similar to EVERY seq in cluster
      */
-    public boolean isSimilar(Cluster cluster, Sequence sequence);
+    boolean isSimilar(Cluster cluster, Sequence sequence);
 
-    public String getName();
+    String getName();
 
-    public void setK(int k);
+    void setK(int k);
 
-    public void setThreshold(double thresh);
+    void setThreshold(double thresh);
 
 }

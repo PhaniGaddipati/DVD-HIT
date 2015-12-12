@@ -8,7 +8,6 @@ import edu.jhu.compgenomics.dvdhit.utils.FASTAUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,19 +25,11 @@ public class DVD_HIT {
      */
     private void cluster(List<Cluster> clusters, List<Sequence> sequences, SequenceSimilarityFilter filter) {
         //Step 1, Sort by decreasing length
-        Collections.sort(sequences, new Comparator<Sequence>() {
-            @Override
-            public int compare(Sequence o1, Sequence o2) {
-                return -Integer.compare(o1.getSequence().length(), o2.getSequence().length());
-            }
-        });
+        Collections.sort(sequences, (o1, o2) -> -Integer.compare(o1.getSequence().length(), o2.getSequence().length()));
 
         //At this points, sequences is a list of to-be-clustered seqs
         Sequence sequence;
         for (int i = 0; i < sequences.size(); i++) {
-            if (i % 1000 == 0) {
-                //System.out.println(i + "/" + sequences.size() + "\t" + clusters.size() + " clusters");
-            }
             sequence = sequences.get(i);
             boolean added = false;
             for (Cluster cluster : clusters) {
@@ -69,7 +60,7 @@ public class DVD_HIT {
      * @return
      */
     public List<Cluster> cluster(File file, List<SequenceSimilarityFilter> filters) {
-        List<Cluster> clusters = new ArrayList<Cluster>();
+        List<Cluster> clusters = new ArrayList<>();
         List<Sequence> sequences = FASTAUtils.readSequences(file);
 
         if (filters == null || filters.size() == 0) {
@@ -86,10 +77,10 @@ public class DVD_HIT {
             // For each next filter, take each cluster, re-cluster it independently
             // with the new filter into splitClusters, and add the new clusters
             // to the newClusters list
-            List<Cluster> newClusters = new ArrayList<Cluster>();
+            List<Cluster> newClusters = new ArrayList<>();
             for (int i = 1; i < filters.size(); i++) {
                 for (Cluster c : clusters) {
-                    List<Cluster> splitClusters = new ArrayList<Cluster>();
+                    List<Cluster> splitClusters = new ArrayList<>();
                     cluster(splitClusters, c, filters.get(i));
                     newClusters.addAll(splitClusters);
                 }

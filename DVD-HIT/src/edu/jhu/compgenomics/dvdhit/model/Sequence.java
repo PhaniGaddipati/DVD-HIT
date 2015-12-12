@@ -17,6 +17,7 @@ public class Sequence {
         this.sequence = sequence;
         this.name = name;
         this.description = description;
+        //Parse out genus and species if it's there
         String tmp = description.toLowerCase().replace("'", "").replace("[", "").replace("]", "").trim();
         if (tmp.matches("[a-z]+ [a-z]+ .+")) {
             genus = tmp.substring(0, tmp.indexOf(" "));

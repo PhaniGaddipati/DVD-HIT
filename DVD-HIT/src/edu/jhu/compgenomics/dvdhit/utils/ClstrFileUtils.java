@@ -4,7 +4,10 @@ import edu.jhu.compgenomics.dvdhit.model.Cluster;
 import edu.jhu.compgenomics.dvdhit.model.Sequence;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utils to read and write cluster files.
@@ -50,8 +53,8 @@ public class ClstrFileUtils {
      * @return A list of Clusters
      */
     public static List<Cluster> readClstrFile(File clstrFile, File fastaFile) throws IOException {
-        List<Sequence> sequences = Collections.emptyList();
-        Map<String, Sequence> nameSeqMap = new HashMap<String, Sequence>();
+        List<Sequence> sequences;
+        Map<String, Sequence> nameSeqMap = new HashMap<>();
         if (fastaFile != null) {
             sequences = FASTAUtils.readSequences(fastaFile);
             for (Sequence s : sequences) {
@@ -79,7 +82,8 @@ public class ClstrFileUtils {
                     seq = s.getSequence();
                 }
                 Sequence sequence = new Sequence(line, description, seq);
-                currentCluster.add(sequence);
+                if (currentCluster != null)
+                    currentCluster.add(sequence);
             }
         }
         if (currentCluster != null) {

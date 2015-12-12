@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /*
  * Playground for different string similarity functions.
@@ -21,14 +17,13 @@ public class StringSimilarityTests {
 	************************************* 1. LCS ***************************************
 	***********************************************************************************/
 	public static ArrayList<Integer> lcs_lens(String xs, String ys) {
-    	ArrayList<Integer> curr = new ArrayList<Integer>(Collections.nCopies(ys.length() +  1, 0));
-    	for (char x : xs.toCharArray()) {
-    		ArrayList<Integer> prev = curr;
+		ArrayList<Integer> curr = new ArrayList<>(Collections.nCopies(ys.length() + 1, 0));
+		for (char x : xs.toCharArray()) {
     		for (int i = 0; i < ys.length(); i++) {
     			char y = ys.charAt(i);
-    			if (x == y) curr.set(i+1, prev.get(i) + 1);
-    			else curr.set(i+1, Math.max(curr.get(i), prev.get(i+1)));
-    		}//end for
+				if (x == y) curr.set(i + 1, curr.get(i) + 1);
+				else curr.set(i + 1, Math.max(curr.get(i), curr.get(i + 1)));
+			}//end for
     	}//end for
     	return curr;
     }
@@ -39,8 +34,8 @@ public class StringSimilarityTests {
     	if (nx == 0) return "";
     	else if (nx == 1) { //returns letters of the longest common subsequence in order
     		String i = xs.substring(0, 1);
-    		if (ys.indexOf(i) >= 0) return i;
-    		else return "";
+			if (ys.contains(i)) return i;
+			else return "";
     	} else {
     		int i = nx/2;
     		String xb = xs.substring(0,i); String xe = xs.substring(i);
@@ -65,16 +60,15 @@ public class StringSimilarityTests {
     ************************************* 2. Jaccard Similarity ************************
     ***********************************************************************************/
 	public static Collection<Character> stringToCharacterSet(String string){
-		Collection<Character> charSet = new HashSet<Character>();
+		Collection<Character> charSet = new HashSet<>();
 		for(Character character : string.toCharArray()) charSet.add(character);
 		return charSet;
 	}//end stringtoCharacterSet
 	
 	public static Collection<Character> uniqueCharacters(Collection<Character> vector){
 		Collection<Character> uniqueSet = new HashSet<>();
-		for(Character c : vector) {
-			if(!uniqueSet.contains(c)) uniqueSet.add(c);
-		}//end for
+		//end for
+		vector.stream().filter(c -> !uniqueSet.contains(c)).forEach(uniqueSet::add);
 		return uniqueSet;
 	}//end uniqueCharacters
 	
@@ -89,7 +83,7 @@ public class StringSimilarityTests {
 		//string1.
 		Collection<Character> vector1 = uniqueCharacters(stringToCharacterSet(string1));
 		Collection<Character> vector2 = uniqueCharacters(stringToCharacterSet(string2));
-		Collection<Character> intersectVector = new TreeSet<Character>();
+		Collection<Character> intersectVector = new TreeSet<>();
 		for(Character c1 : vector1) {
 			for(Character c2 : vector2) {
 				if(c1.equals(c2)) intersectVector.add(c1);

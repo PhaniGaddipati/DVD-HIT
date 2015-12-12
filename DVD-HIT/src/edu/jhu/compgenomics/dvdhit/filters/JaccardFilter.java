@@ -33,10 +33,10 @@ public class JaccardFilter implements SequenceSimilarityFilter {
             Map<String, Integer> repIndex = masterIndex.get(rep.getSequence()).get(k);
             Map<String, Integer> seqIndex = masterIndex.get(sequence.getSequence()).get(k);
 
-            Set<String> union = new HashSet<String>(repIndex.keySet());
+            Set<String> union = new HashSet<>(repIndex.keySet());
             union.addAll(seqIndex.keySet());
 
-            Set<String> intersection = new HashSet<String>(repIndex.keySet());
+            Set<String> intersection = new HashSet<>(repIndex.keySet());
             intersection.retainAll(seqIndex.keySet());
 
             float jaccard = (float) intersection.size() / (float) union.size();

@@ -37,20 +37,26 @@ public class LLCSFilter implements SequenceSimilarityFilter {
         //Not used here
     }
 
-    public ArrayList<Integer> lcs_lens(String xs, String ys) {
-        ArrayList<Integer> curr = new ArrayList<Integer>(Collections.nCopies(ys.length() + 1, 0));
+    private ArrayList<Integer> lcs_lens(String xs, String ys) {
+        ArrayList<Integer> curr = new ArrayList<>(Collections.nCopies(ys.length() + 1, 0));
         for (char x : xs.toCharArray()) {
-            ArrayList<Integer> prev = curr;
             for (int i = 0; i < ys.length(); i++) {
                 char y = ys.charAt(i);
-                if (x == y) curr.set(i + 1, prev.get(i) + 1);
-                else curr.set(i + 1, Math.max(curr.get(i), prev.get(i + 1)));
+                if (x == y) curr.set(i + 1, curr.get(i) + 1);
+                else curr.set(i + 1, Math.max(curr.get(i), curr.get(i + 1)));
             }
         }
         return curr;
     }
 
-    public String LCS(String xs, String ys) {
+    /**
+     * Finds the longest common subsequence of the two strings
+     *
+     * @param xs
+     * @param ys
+     * @return
+     */
+    private String LCS(String xs, String ys) {
         int nx = xs.length();
         int ny = ys.length();
 
@@ -81,7 +87,16 @@ public class LLCSFilter implements SequenceSimilarityFilter {
         }
     }
 
-    public double LLCS(String a, String b) {
+    /**
+     * Computes the LLCS of the given two strings.
+     * The score is the fraction of the length of the LCS
+     * to the length of the shorter string.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    private double LLCS(String a, String b) {
         return (float) LCS(a, b).length() / Math.min(a.length(), b.length());
     }
 }

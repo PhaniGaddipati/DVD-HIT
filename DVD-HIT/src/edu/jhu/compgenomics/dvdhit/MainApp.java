@@ -28,7 +28,7 @@ public class MainApp {
                 DVD_HIT dvd_hit = new DVD_HIT();
                 File inFile = new File(args[2]);
                 File outFile = new File(args[3]);
-                List<SequenceSimilarityFilter> filterList = new ArrayList<SequenceSimilarityFilter>();
+                List<SequenceSimilarityFilter> filterList = new ArrayList<>();
                 int k = Integer.parseInt(args[0]);
                 double thresh = Double.parseDouble(args[1]);
                 for (int i = 4; i < args.length; i++) {
@@ -80,16 +80,13 @@ public class MainApp {
                     return false;
                 }
             }
-            int k = Integer.parseInt(args[0]);
-            double thresh = Double.parseDouble(args[1]);
+            Integer.parseInt(args[0]);
+            Double.parseDouble(args[1]);
         } catch (NumberFormatException ex) {
             return false;
         }
         File inFile = new File(args[2]);
-        if (!inFile.exists() || inFile.isDirectory()) {
-            return false;
-        }
-        return true;
+        return !(!inFile.exists() || inFile.isDirectory());
     }
 
     private static void printUsage() {

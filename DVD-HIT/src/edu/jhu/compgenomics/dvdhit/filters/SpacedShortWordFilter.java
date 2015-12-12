@@ -59,7 +59,7 @@ public class SpacedShortWordFilter implements SequenceSimilarityFilter {
         return true;
     }
 
-    public void addToMasterIndex(String rep) {
+    private void addToMasterIndex(String rep) {
         Map<Integer, Map<String, Integer>> kmerIndex = new HashMap<>();
         char kmerArr[];
         String kmer;

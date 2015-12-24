@@ -4,6 +4,7 @@ import edu.jhu.compgenomics.dvdhit.filters.*;
 import edu.jhu.compgenomics.dvdhit.model.Cluster;
 import edu.jhu.compgenomics.dvdhit.utils.ClstrFileUtils;
 import edu.jhu.compgenomics.dvdhit.utils.EvaluationUtils;
+import edu.jhu.compgenomics.dvdhit.vizwiz.ClusteringVisualUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class MainApp {
                 printRef(inFile);
                 System.out.println("Writing '" + outFile.getAbsolutePath() + "'...");
                 ClstrFileUtils.writeClstrFile(clusters, outFile);
+                ClusteringVisualUtils.showClusteringVisual(clusters);
                 System.out.println("Done\n\n");
             } catch (IOException e) {
                 System.out.println("Error using the specified file!");
